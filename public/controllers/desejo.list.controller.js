@@ -9,8 +9,7 @@
 
     function ListDesejoController(Desejos) {
         var vm = this;
-        vm.title = 'Listar - Desejos'
-        vm.disabled = null;
+        vm.title = 'Listar - Desejos';
         vm.desejos = null;
 
         getDesejos();
@@ -22,8 +21,7 @@
                 },
                 function (error) {
                     console.log(error);
-                }
-            );
+                });
         }
 
     }

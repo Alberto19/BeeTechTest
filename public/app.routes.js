@@ -23,19 +23,24 @@
                     templateUrl: 'views/layouts/main.html',
                 })
 
-                // User routes
                 .state('main.desejo', {
                     abstract: true,
                     url: '^/desejo',
                     template: '<ui-view/>',
                 })
+                // Desejo routes
                 .state('main.desejo.list', {
                     url: '/listar',
                     controller: 'ListDesejoController as vm',
                     templateUrl: 'views/partials/desejo.html'
                 })
+                .state('main.desejo.create', {
+                    url: '/create',
+                    controller: 'createDesejoController as vm',
+                    templateUrl: 'views/partials/desejo.form.html'
+                })
 
             // Redirect invalid routes to home page
-            $urlRouterProvider.otherwise('/main/desejo/listar');
+            $urlRouterProvider.otherwise('/desejo/listar');
         }]);
 })();
