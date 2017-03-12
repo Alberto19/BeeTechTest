@@ -1,6 +1,12 @@
 (function () {
     'use strict';
 
+    angular.module('app', ['ui.router'])
+})();
+
+(function () {
+    'use strict';
+
     angular
         .module('app')
         .config(['$locationProvider', '$stateProvider', '$urlRouterProvider', function ($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -39,3 +45,43 @@
             $urlRouterProvider.otherwise('/login');
         }]);
 })();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('ListDesejoController', ListDesejoController);
+
+    ListDesejoController.$inject = [];
+
+    function ListDesejoController() {
+        var vm = this;
+        vm.title = 'Listar - Desejos'
+        vm.disabled = null;
+        vm.desejos = null;
+
+    }
+})();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('LoginController', LoginController);
+
+    LoginController.$inject = ['$state'];
+
+    function LoginController($state ) {
+        var vm = this;
+
+        vm.email = 'fake@fake.com.br';
+        vm.password = '123456';
+        ////////////////
+
+ 
+    }
+})();
+
+//# sourceMappingURL=script.js.map

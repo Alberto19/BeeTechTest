@@ -7,7 +7,7 @@
 
     LoginController.$inject = ['$state'];
 
-    function LoginController($state, ) {
+    function LoginController($state ) {
         var vm = this;
 
         vm.email = 'fake@fake.com.br';
