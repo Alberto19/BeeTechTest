@@ -100,5 +100,7 @@ gulp.task('imagemin', function() {
         .pipe(gulp.dest('public/image'));
 });
 
+gulp.task('heroku', ['css', 'js']);
+
 // TASK - DEFAULT
 gulp.task('default', ['css:watch', 'js:watch'], function() { });
