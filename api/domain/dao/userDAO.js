@@ -25,5 +25,18 @@ class UserDAO {
 		});
 		return defer.promise;
 	}
+
+	findOne(user) {
+		let defer = q.defer();
+		User.findOne({
+			where: {
+				email: user.email,
+				senha: user.senha
+			}
+		}).then(function (result) {
+			defer.resolve(result);
+		});
+		return defer.promise;
+	}
 }
 module.exports = new UserDAO();

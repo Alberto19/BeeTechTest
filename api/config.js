@@ -15,5 +15,6 @@ module.exports = {
             "host": "ec2-107-20-230-243.compute-1.amazonaws.com",
 	        "port": "5432",
         }
-    }
+    },
+    "secretKey":"beeTech"
 };
