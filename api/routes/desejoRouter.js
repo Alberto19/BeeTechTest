@@ -25,6 +25,37 @@ desejoRouter.post('/create',(req, res)=>{
 		});
 	});
 });
+desejoRouter.get('/edit/:id',(req, res)=>{
+	desejoDAO.findOne(req.params).then((result)=>{
+			res.status(201).json(result);
+
+	}).catch((err)=>{
+		res.status(500).send({
+			error: err
+		});
+	});
+});
+desejoRouter.post('/editar',(req, res)=>{
+	desejoDAO.update(req.body).then((result)=>{
+			res.status(201).json(result);
+
+	}).catch((err)=>{
+		res.status(500).send({
+			error: err
+		});
+	});
+});
+
+desejoRouter.post('/delete/:id',(req, res)=>{
+	desejoDAO.delete(req.params).then((result)=>{
+			res.status(201).json(result);
+
+	}).catch((err)=>{
+		res.status(500).send({
+			error: err
+		});
+	});
+});
 
 
 module.exports = desejoRouter;
