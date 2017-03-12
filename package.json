@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" :"node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "mocha --reporter spec   api/test/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,9 @@
     "request-promise": "^4.1.1",
     "sequelize": "^3.30.2"
   },
-    "devDependencies": {
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
@@ -44,6 +46,7 @@
     "karma-chrome-launcher": "^2.0.0",
     "karma-html-reporter": "^0.2.7",
     "karma-jasmine": "^1.0.2",
+    "mocha": "^3.2.0",
     "pump": "^1.0.1"
   }
 }
