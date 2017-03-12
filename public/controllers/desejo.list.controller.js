@@ -5,17 +5,18 @@
         .module('app')
         .controller('ListDesejoController', ListDesejoController);
 
-    ListDesejoController.$inject = ['Desejos'];
+    ListDesejoController.$inject = ['Desejo'];
 
-    function ListDesejoController(Desejos) {
+    function ListDesejoController(Desejo) {
         var vm = this;
         vm.title = 'Listar - Desejos';
         vm.desejos = null;
+        vm.delete = deletar;
 
         getDesejos();
 
           function getDesejos() {
-            Desejos.getDesejos().then(
+            Desejo.getDesejos().then(
                 function (desejos) {
                     vm.desejos = desejos.data;
                 },
@@ -24,5 +25,10 @@
                 });
         }
 
+        function deletar(id){
+            Desejo.deletar(id).then(()=>{
+                getDesejos();
+            })
+        }
     }
 })();
