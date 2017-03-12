@@ -8,8 +8,7 @@ bower_components
 .bower-registry
 .bower-tmp
 
-### LIB ###
-public/libs/
+
 
 ### Node ###
 # Logs
