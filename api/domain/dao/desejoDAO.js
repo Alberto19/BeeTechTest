@@ -3,16 +3,21 @@ let q = require('q');
 
 class desejoDAO {
 
-	persist(Desejo) {
+	persist(desejo) {
 		let defer = q.defer();
-		Desejo.create({
-			nome: Desejo.nome,
-			descricao: Desejo.descricao,
-			valor: Desejo.valor
-		}).then(() => {
-			defer.resolve();
-		}).catch((error) => {
-			defer.reject('Erro create Desejo');
+		Desejo.sync({
+			force: false
+		}).then(function () {
+			// Table created
+			return Desejo.create({
+				nome: desejo.nome,
+				descricao: desejo.descricao,
+				valor: desejo.valor
+			}).then(() => {
+				defer.resolve();
+			}).catch((error) => {
+				defer.reject('Erro create Desejo');
+			});
 		});
 
 		return defer.promise;

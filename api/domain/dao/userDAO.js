@@ -5,14 +5,18 @@ class UserDAO {
 
 	persist(user) {
 		let defer = q.defer();
-		User.create({
-			nome: user.nome,
-			email: user.email,
-			senha: user.senha
-		}).then(() => {
-			defer.resolve();
-		}).catch((error) => {
-			defer.reject('Erro create User');
+		User.sync({
+			force: false
+		}).then(function () {
+			User.create({
+				nome: user.nome,
+				email: user.email,
+				senha: user.senha
+			}).then(() => {
+				defer.resolve();
+			}).catch((error) => {
+				defer.reject('Erro create User');
+			});
 		});
 
 		return defer.promise;
