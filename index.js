@@ -4,10 +4,11 @@ let app = express();
 let bodyParser = require('body-parser');
 let methodOverride = require('method-override');
 let cors = require('cors');
+var path = require('path');
 let mongoose = require('mongoose');
-let config = require('./config');
 let morgan = require('morgan');
-let routes = require('./routes/index');
+let config = require('./api/config');
+let routes = require('./api/routes/index');
 
 let http = require('http').Server(app);
 
@@ -28,11 +29,11 @@ app.use(methodOverride('_method'));
 app.use('/api',routes);
 
 // Serve static files
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname+ '/public'));
 
 // Otherwise return index page
 app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/views/index.html'));
+    res.sendFile(path.join(__dirname +'/public/views/index.html'));
 });
 
 http.listen(config.port, function (err) {
