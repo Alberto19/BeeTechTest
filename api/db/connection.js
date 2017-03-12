@@ -1,14 +1,14 @@
 let sequelize = require('sequelize');
 let config = require('../config');
 
-let db = config.db.dev;
+let db = config.db.prd;
 
 let connection = new sequelize(db.database, db.user, db.pass, {
 	host: db.host,
 	port: db.port,
 	dialect: 'postgres',
 	dialectOptions: {
-    ssl: false
+    ssl: true
   },
 	omitNull: true,
 
