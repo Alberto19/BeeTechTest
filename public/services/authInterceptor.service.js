@@ -22,7 +22,7 @@
 
             // Inject API token on all requests
             if (token) {
-                config.headers['X-AUTH-TOKEN'] = token;
+                config.headers['x-access-token'] = token;
             }
 
             return config;

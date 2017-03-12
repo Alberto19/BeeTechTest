@@ -1,4 +1,4 @@
-(function ($) {
+(function () {
     'use strict';
 
     angular
@@ -7,7 +7,6 @@
             templateUrl: 'components/html/navigation.component.html',
             controller: NavigationController,
             bindings: {
-                user: '&',
                 logout: '&',
             },
         });
@@ -22,4 +21,4 @@
         $ctrl.$onDestory = function () {};
 
     }
-})(jQuery);
+})();

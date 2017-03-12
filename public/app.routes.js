@@ -24,9 +24,8 @@
                 })
 
                 .state('main.desejo', {
-                    abstract: true,
                     url: '^/desejo',
-                    template: '<ui-view/>',
+                    template: '<ui-view/>'
                 })
                 // Desejo routes
                 .state('main.desejo.list', {
@@ -39,6 +38,12 @@
                     controller: 'createDesejoController as vm',
                     templateUrl: 'views/partials/desejo.form.html'
                 })
+                .state('main.desejo.edit', {
+                    url: '/edit/:desejoId',
+                    controller: 'editDesejoController as vm',
+                    templateUrl: 'views/partials/desejo.form.html'
+                })
+
 
             // Redirect invalid routes to home page
             $urlRouterProvider.otherwise('/desejo/listar');

@@ -11,9 +11,13 @@
         var vm = this;
 
         vm.logout = logout;
+        vm.desejos = desejos;
 
         function logout() {
             auth.logout();
+            $state.go('login');
+        }
+        function desejos() {
             $state.go('login');
         }
     }

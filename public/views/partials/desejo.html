@@ -24,10 +24,11 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="desejo in vm.desejos">
-                            <td>{{desejo.name}}</td>
+                            <td>{{desejo.nome}}</td>
                             <td>{{desejo.descricao}}</td>
                             <td>{{desejo.valor}}</td>
-                            <!--<td><a ui-sref="main.desejo.edit({desejoId: {{desejo.id}}})">Editar</a></td>-->
+                            <td><a ui-sref="main.desejo.edit({desejoId: {{desejo.id}}})">Editar</a>
+                            <a ng-click="vm.delete(desejo.id)">Deletar</a></td>
                         </tr>
                     </tbody>
                 </table>

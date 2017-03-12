@@ -5,20 +5,23 @@
 		.module('app')
 		.controller('createDesejoController', createDesejoController);
 
-	createDesejoController.$inject = ['Desejo'];
+	createDesejoController.$inject = ['$state', 'Desejo'];
 
-	function createDesejoController(Desejo) {
+	function createDesejoController($state, Desejo) {
 		var vm = this;
 		vm.title = 'Cadastrar - Desejos';
-		vm.nome = null;
-		vm.descricao = null;
-		vm.valor = null;
+		vm.desejos = {
+			nome: null,
+			descricao: null,
+			valor: null
+		};
+		vm.submit = 'Cadastrar Desejo';
 
 		vm.cadastrar = cadastrar;
 
 		////////////////
 		function cadastrar() {
-			Desejo.cadastrar(vm.nome, vm.descricao, vm.valor).then(
+			Desejo.cadastrar(vm.desejos).then(
 				function () {
 					$state.go('main.desejo.list')
 				},
@@ -26,10 +29,6 @@
 					console.log(err);
 				}
 			)
-
 		}
-
-
-
 	}
 })();

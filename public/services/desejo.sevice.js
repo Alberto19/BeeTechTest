@@ -10,8 +10,10 @@
     function Desejo($http, config) {
         var service = {
             getDesejos: getDesejos,
-            cadastrar:cadastrar
-            // getDesejo: getDesejo
+            cadastrar:cadastrar,
+            getDesejo:getDesejo,
+            editar:editar,
+            deletar:deletar
         };
 
         return service;
@@ -19,13 +21,18 @@
         ////////////////
         function getDesejos() {
             return $http.get(config.baseApiUrl + '/desejo');
-        }
+        };
         function cadastrar(desejo){
-            return $http.post(config.baseApiUrl + '/desejo/create', desejo)
+            return $http.post(config.baseApiUrl + '/desejo/create', desejo);
+        };
+        function getDesejo(desejo) {
+            return $http.get(config.baseApiUrl + '/desejo/edit/' + desejo);
         }
-
-        // function getDesejo(desejoId) {
-        //     return $http.get(config.baseApiUrl + '/desejo/edit/' + desejoId);
-        // }
+        function editar(desejo) {
+            return $http.post(config.baseApiUrl + '/desejo/editar/', desejo);
+        }
+        function deletar(desejo) {
+            return $http.post(config.baseApiUrl + '/desejo/delete/' + desejo);
+        }
     }
 })();

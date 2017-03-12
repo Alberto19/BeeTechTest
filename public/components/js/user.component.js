@@ -1,4 +1,4 @@
-(function ($) {
+(function () {
     'use strict';
 
     angular
@@ -7,12 +7,9 @@
             templateUrl: 'components/html/user.component.html',
             controller: UserController,
             bindings: {
-                user: '&',
-                logout: '&'
+                logout: '&',
             },
         });
-
-    // UserController.$inject = ['dependency1'];
 
     function UserController() {
         var $ctrl = this;
@@ -24,4 +21,4 @@
         $ctrl.$onDestory = function () {};
 
     }
-})(jQuery);
+})();
