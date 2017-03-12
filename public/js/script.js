@@ -53,12 +53,11 @@
                     templateUrl: 'views/layouts/main.html',
                 })
 
-                .state('main.desejo', {
-                    abstract: true,
-                    url: '^/desejo',
-                    template: '<ui-view/>',
-                })
                 // Desejo routes
+                .state('main.desejo', {
+                    url: '^/desejo',
+                    template: '<ui-view/>'
+                })
                 .state('main.desejo.list', {
                     url: '/listar',
                     controller: 'ListDesejoController as vm',
@@ -69,6 +68,12 @@
                     controller: 'createDesejoController as vm',
                     templateUrl: 'views/partials/desejo.form.html'
                 })
+                .state('main.desejo.edit', {
+                    url: '/edit/:desejoId',
+                    controller: 'editDesejoController as vm',
+                    templateUrl: 'views/partials/desejo.form.html'
+                })
+
 
             // Redirect invalid routes to home page
             $urlRouterProvider.otherwise('/desejo/listar');
@@ -101,6 +106,7 @@
     function auth($http, authData, config) {
         var service = {
             login: login,
+            register: register,
             logout: logout
         };
 
@@ -109,18 +115,35 @@
         ////////////////
         function login(email, password) {
             return $http.post(config.baseApiUrl + '/user/login', {
-                    email: email,
-                    senha: password
-                }).then(
-                    function(data){
-                        var loginData = data.data;
+                email: email,
+                senha: password
+            }).then(
+                function (data) {
+                    var loginData = data.data;
 
-                        authData.parseData(loginData);
-                    },
-                    function(data){
-                        console.log(data);
-                    }
-                );
+                    authData.parseData(loginData);
+                },
+                function (data) {
+                    console.log(data);
+                }
+            );
+        }
+
+        function register(nome, email, password) {
+            return $http.post(config.baseApiUrl + '/user/create', {
+                nome: nome,
+                email: email,
+                senha: password
+            }).then(
+                function (data) {
+                    var loginData = data.data;
+
+                    authData.parseData(loginData);
+                },
+                function (data) {
+                    console.log(data);
+                }
+            );
         }
 
         function logout() {
@@ -128,7 +151,6 @@
         }
     }
 })();
-
 (function () {
 	'use strict';
 
@@ -210,7 +232,7 @@
 
             // Inject API token on all requests
             if (token) {
-                config.headers['X-AUTH-TOKEN'] = token;
+                config.headers['x-access-token'] = token;
             }
 
             return config;
@@ -242,8 +264,10 @@
     function Desejo($http, config) {
         var service = {
             getDesejos: getDesejos,
-            cadastrar:cadastrar
-            // getDesejo: getDesejo
+            cadastrar:cadastrar,
+            getDesejo:getDesejo,
+            editar:editar,
+            deletar:deletar
         };
 
         return service;
@@ -251,18 +275,23 @@
         ////////////////
         function getDesejos() {
             return $http.get(config.baseApiUrl + '/desejo');
-        }
+        };
         function cadastrar(desejo){
-            return $http.post(config.baseApiUrl + '/desejo/create', desejo)
+            return $http.post(config.baseApiUrl + '/desejo/create', desejo);
+        };
+        function getDesejo(desejo) {
+            return $http.get(config.baseApiUrl + '/desejo/edit/' + desejo);
         }
-
-        // function getDesejo(desejoId) {
-        //     return $http.get(config.baseApiUrl + '/desejo/edit/' + desejoId);
-        // }
+        function editar(desejo) {
+            return $http.post(config.baseApiUrl + '/desejo/editar/', desejo);
+        }
+        function deletar(desejo) {
+            return $http.post(config.baseApiUrl + '/desejo/delete/' + desejo);
+        }
     }
 })();
 
-(function ($) {
+(function () {
     'use strict';
 
     angular
@@ -271,7 +300,6 @@
             templateUrl: 'components/html/navigation.component.html',
             controller: NavigationController,
             bindings: {
-                user: '&',
                 logout: '&',
             },
         });
@@ -286,9 +314,9 @@
         $ctrl.$onDestory = function () {};
 
     }
-})(jQuery);
+})();
 
-(function ($) {
+(function () {
     'use strict';
 
     angular
@@ -297,12 +325,9 @@
             templateUrl: 'components/html/user.component.html',
             controller: UserController,
             bindings: {
-                user: '&',
-                logout: '&'
+                logout: '&',
             },
         });
-
-    // UserController.$inject = ['dependency1'];
 
     function UserController() {
         var $ctrl = this;
@@ -314,7 +339,7 @@
         $ctrl.$onDestory = function () {};
 
     }
-})(jQuery);
+})();
 
 (function () {
 	'use strict';
@@ -323,20 +348,23 @@
 		.module('app')
 		.controller('createDesejoController', createDesejoController);
 
-	createDesejoController.$inject = ['Desejo'];
+	createDesejoController.$inject = ['$state', 'Desejo'];
 
-	function createDesejoController(Desejo) {
+	function createDesejoController($state, Desejo) {
 		var vm = this;
 		vm.title = 'Cadastrar - Desejos';
-		vm.nome = null;
-		vm.descricao = null;
-		vm.valor = null;
+		vm.desejos = {
+			nome: null,
+			descricao: null,
+			valor: null
+		};
+		vm.submit = 'Cadastrar Desejo';
 
 		vm.cadastrar = cadastrar;
 
 		////////////////
 		function cadastrar() {
-			Desejo.cadastrar(vm.nome, vm.descricao, vm.valor).then(
+			Desejo.cadastrar(vm.desejos).then(
 				function () {
 					$state.go('main.desejo.list')
 				},
@@ -344,12 +372,61 @@
 					console.log(err);
 				}
 			)
-
 		}
-
-
-
 	}
+})();
+(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('editDesejoController', editDesejoController);
+
+    editDesejoController.$inject = ['$state', 'Desejo', '$stateParams'];
+
+    function editDesejoController($state, Desejo, $stateParams) {
+        var vm = this;
+        vm.title = 'Editar - Usuário'
+        vm.desejos = {
+            nome: null,
+            descricao: null,
+            valor: null
+        };
+        vm.submit = 'Editar Desejo';
+
+        vm.cadastrar = editar;
+
+        getDesejo();
+
+        ////////////////
+
+        function getDesejo() {
+            var desejoId = $stateParams.desejoId;
+
+            Desejo.getDesejo(desejoId).then(
+                function (desejo) {
+                    vm.desejos = desejo.data;
+                },
+                function (error) {
+                    console.log(error);
+                }
+            );
+        }
+
+        function editar() {
+            Desejo.editar(vm.desejos).then(
+                function () {
+                    $state.go('main.desejo.list')
+                },
+                function (err) {
+                    console.log(err);
+                }
+            )
+        }
+
+
+
+    }
 })();
 (function () {
     'use strict';
@@ -358,17 +435,18 @@
         .module('app')
         .controller('ListDesejoController', ListDesejoController);
 
-    ListDesejoController.$inject = ['Desejos'];
+    ListDesejoController.$inject = ['Desejo'];
 
-    function ListDesejoController(Desejos) {
+    function ListDesejoController(Desejo) {
         var vm = this;
         vm.title = 'Listar - Desejos';
         vm.desejos = null;
+        vm.delete = deletar;
 
         getDesejos();
 
           function getDesejos() {
-            Desejos.getDesejos().then(
+            Desejo.getDesejos().then(
                 function (desejos) {
                     vm.desejos = desejos.data;
                 },
@@ -377,6 +455,11 @@
                 });
         }
 
+        function deletar(id){
+            Desejo.deletar(id).then(()=>{
+                getDesejos();
+            })
+        }
     }
 })();
 
@@ -393,9 +476,13 @@
         var vm = this;
 
         vm.logout = logout;
+        vm.desejos = desejos;
 
         function logout() {
             auth.logout();
+            $state.go('login');
+        }
+        function desejos() {
             $state.go('login');
         }
     }
@@ -413,10 +500,9 @@
     function LoginController($state, auth) {
         var vm = this;
 
-        vm.email;
-        vm.password;
+        vm.email = 'junior@gmail.com';
+        vm.password = '12345';
         vm.login = login;
-
         ////////////////
 
         function login() {

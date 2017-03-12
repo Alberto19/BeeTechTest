@@ -16,8 +16,10 @@ userRouter.get('',(req, res)=>{
 
 userRouter.post('/create',(req, res)=>{
 	UserDAO.persist(req.body).then((result)=>{
-			res.status(201).send({
-				message: 'success'
+			token.createToken(req.body).then(token=>{
+				res.status(201).send({
+					token: token
+				});
 			});
 
 	}).catch((err)=>{

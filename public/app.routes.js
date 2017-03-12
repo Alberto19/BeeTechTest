@@ -23,11 +23,11 @@
                     templateUrl: 'views/layouts/main.html',
                 })
 
+                // Desejo routes
                 .state('main.desejo', {
                     url: '^/desejo',
                     template: '<ui-view/>'
                 })
-                // Desejo routes
                 .state('main.desejo.list', {
                     url: '/listar',
                     controller: 'ListDesejoController as vm',

@@ -13,7 +13,6 @@
         vm.email = 'junior@gmail.com';
         vm.password = '12345';
         vm.login = login;
-
         ////////////////
 
         function login() {
