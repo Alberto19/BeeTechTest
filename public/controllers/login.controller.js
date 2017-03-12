@@ -5,15 +5,25 @@
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$state'];
+    LoginController.$inject = ['$state', 'auth'];
 
-    function LoginController($state ) {
+    function LoginController($state, auth) {
         var vm = this;
 
-        vm.email = 'fake@fake.com.br';
-        vm.password = '123456';
+        vm.email;
+        vm.password;
+        vm.login = login;
+
         ////////////////
 
- 
+        function login() {
+            auth.login(vm.email, vm.password).then(
+                function () {
+                    $state.go('main.desejo.list');
+                },
+                function (data) {
+                    console.log(data);
+                });
+        }
     }
 })();

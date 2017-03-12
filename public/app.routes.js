@@ -36,6 +36,6 @@
                 })
 
             // Redirect invalid routes to home page
-            $urlRouterProvider.otherwise('/login');
+            $urlRouterProvider.otherwise('/main/home');
         }]);
 })();

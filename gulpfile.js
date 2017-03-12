@@ -59,7 +59,7 @@ gulp.task('js', function(cb) {
         gulp.src([
             'public/app.js',
             'public/app.routes.js',
-            'public/configs/config.js',
+            'public/config/*.js',
             'public/services/*.js',
             'public/components/js/*.js',
             'public/controllers/*.js'
@@ -79,7 +79,7 @@ gulp.task('js:watch', function() {
         [
             'public/app.js',
             'public/app.routes.js',
-            'public/configs/config.js',
+            'public/config/*.js',
             'public/services/*.js',
             'public/components/js/*.js',
             'public/controllers/*.js'

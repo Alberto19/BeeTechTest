@@ -8,7 +8,7 @@ let connection = new sequelize(db.database, db.user, db.pass, {
 	port: db.port,
 	dialect: 'postgres',
 	dialectOptions: {
-    ssl: true
+    ssl: false
   },
 	omitNull: true,
 
