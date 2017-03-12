@@ -10,8 +10,8 @@
     function LoginController($state, auth) {
         var vm = this;
 
-        vm.email = 'junior@gmail.com';
-        vm.password = '12345';
+        vm.email = null;
+        vm.password = null;
         vm.login = login;
         ////////////////
 
