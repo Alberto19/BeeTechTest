@@ -36,6 +36,6 @@
                 })
 
             // Redirect invalid routes to home page
-            $urlRouterProvider.otherwise('/main/home');
+            $urlRouterProvider.otherwise('/main/desejo/listar');
         }]);
 })();

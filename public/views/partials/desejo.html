@@ -1,0 +1,37 @@
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <h1>{{vm.title}}</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <a ui-sref="main.user.register">Cadastrar</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>descricao</th>
+                            <th>valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="desejo in vm.desejos">
+                            <td>{{desejo.name}}</td>
+                            <td>{{desejo.descricao}}</td>
+                            <td>{{desejo.valor}}</td>
+                            <td><a ui-sref="main.desejo.edit({desejoId: {{desejo.id}}})">Editar</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
